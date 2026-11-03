@@ -1,0 +1,9 @@
+{
+  "name": "ZIVAZHA PAY",
+  "short_name": "ZIVAZHA PAY",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f8fa",
+  "theme_color": "#071b2d",
+  "description": "Prototipe antarmuka pembayaran digital ZIVAZHA PAY"
+}

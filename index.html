@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071B2D">
+<meta name="description" content="Prototipe antarmuka ZIVAZHA PAY. Demo UI, bukan layanan pembayaran aktif.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>ZIVAZHA PAY — Prototipe</title>
+<style>
+:root{--navy:#071b2d;--navy2:#0d2b43;--teal:#42d6bd;--teal2:#a0f2e2;--ink:#142638;--muted:#6d8090;--line:#e5edf1;--paper:#f4f8fa;--white:#fff;--gold:#f3c875;--shadow:0 18px 50px #0b263512}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink)}button,input{font:inherit}button{cursor:pointer}
+.app{max-width:1180px;margin:auto;min-height:100vh;display:grid;grid-template-columns:248px 1fr;background:var(--paper)}
+.sidebar{background:linear-gradient(180deg,var(--navy),#0b2940);color:#fff;padding:28px 18px;display:flex;flex-direction:column;gap:28px}
+.brand{display:flex;align-items:center;gap:11px;padding:0 8px}.brandmark{width:39px;height:39px;border-radius:13px;background:linear-gradient(145deg,#8cf1df,#2ebba8);display:grid;place-items:center;color:#062538;font-weight:950;font-size:18px;box-shadow:0 8px 22px #42d6bd30}.brandname{font-weight:900;letter-spacing:.7px;font-size:16px}.brandname span{color:var(--teal)}
+.nav{display:grid;gap:7px}.nav button{display:flex;align-items:center;gap:12px;padding:12px 13px;border:0;border-radius:12px;background:transparent;color:#b8cad5;text-align:left;font-weight:650}.nav button.active,.nav button:hover{background:#ffffff14;color:#fff}.nav .ico{width:22px;text-align:center;font-size:17px}
+.sidebar-note{margin-top:auto;background:#ffffff0e;border:1px solid #ffffff16;padding:14px;border-radius:15px;color:#c4d3dc;font-size:11px;line-height:1.55}
+.main{min-width:0;padding:28px clamp(16px,4vw,46px) 100px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:28px}.eyebrow{font-size:10px;font-weight:850;letter-spacing:1.7px;color:#168f83}.welcome h1{font-size:clamp(23px,3vw,31px);margin:5px 0 3px;letter-spacing:-.7px}.welcome p{margin:0;color:var(--muted);font-size:13px}.profile{display:flex;align-items:center;gap:10px}.bell{border:1px solid var(--line);background:#fff;border-radius:12px;width:42px;height:42px}.avatar{width:40px;height:40px;border-radius:50%;background:#d9f5ef;color:#087a70;display:grid;place-items:center;font-weight:850}
+.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(250px,.9fr);gap:18px}.balance{background:radial-gradient(circle at 90% 10%,#1b526a 0,transparent 37%),linear-gradient(125deg,#092238,#0d3a50);color:#fff;border-radius:22px;padding:25px;position:relative;overflow:hidden;box-shadow:var(--shadow);min-height:205px}.balance:after{content:"";position:absolute;width:220px;height:220px;border:1px solid #ffffff17;border-radius:50%;right:-60px;top:65px;box-shadow:0 0 0 25px #ffffff08,0 0 0 50px #ffffff05}.balance .label{font-size:12px;color:#b9d7df}.balance .amount{font-size:clamp(29px,5vw,39px);font-weight:850;letter-spacing:-1px;margin:9px 0 17px}.balance .amount small{font-size:15px;color:#c6dce2;font-weight:600}.balance-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;position:relative;z-index:1}.demo-pill{border:1px solid #ffffff3b;background:#ffffff13;color:#d9fff8;border-radius:99px;padding:6px 10px;font-size:10px;font-weight:800;letter-spacing:.5px}.balance-foot span:last-child{font-size:11px;color:#b8d6dd}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:17px 0 20px}.action{border:1px solid var(--line);background:#fff;border-radius:16px;padding:15px 8px;text-align:center;color:var(--ink);box-shadow:0 5px 16px #09223806}.action .symbol{width:39px;height:39px;border-radius:13px;background:#e5f8f4;color:#087f74;display:grid;place-items:center;margin:0 auto 8px;font-size:19px}.action b{font-size:11px}.action:disabled{opacity:.55;cursor:not-allowed}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:19px;box-shadow:0 6px 20px #09223805}.cardhead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}.cardhead h2{font-size:15px;margin:0}.subtle{font-size:11px;color:var(--muted)}.transaction{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid #edf2f4}.transaction:last-child{border:0;padding-bottom:0}.txicon{width:37px;height:37px;border-radius:12px;background:#f0f6f7;display:grid;place-items:center}.txmeta{flex:1;min-width:0}.txmeta b{font-size:12px;display:block}.txmeta small{font-size:10px;color:var(--muted)}.txamount{font-size:12px;font-weight:800}.positive{color:#168b70}.negative{color:#243b4e}
+.side-stack{display:grid;gap:17px}.promo{background:linear-gradient(135deg,#dff8f2,#f4fffc);border:1px solid #c8eee5;border-radius:18px;padding:18px}.promo h3{margin:7px 0;font-size:15px}.promo p{font-size:11px;color:#58756f;line-height:1.55;margin:0}.promo .qr-art{font-size:32px}
+.notice{margin-top:18px;padding:12px 14px;background:#fff8e9;border:1px solid #f4e3bc;border-radius:13px;color:#80652f;font-size:11px;line-height:1.5}
+.formcard{max-width:650px}.field{display:grid;gap:7px;margin:14px 0}.field label{font-size:12px;font-weight:750}.field input{width:100%;padding:13px 14px;border:1px solid #dce6eb;border-radius:12px;outline:none}.field input:focus{border-color:#40bda9;box-shadow:0 0 0 3px #42d6bd20}.btn{border:0;background:linear-gradient(120deg,#36c8b2,#70e2cf);color:#062a34;font-weight:850;border-radius:12px;padding:13px 17px}.btn.secondary{background:#edf4f6;color:#294557}.btn:disabled{opacity:.5;cursor:not-allowed}
+.qrbox{width:170px;height:170px;margin:18px auto;background:#fff;border:10px solid #fff;box-shadow:0 0 0 1px #dfe9ed;display:grid;place-items:center;color:#8aa0aa;font-size:54px;border-radius:9px;background-image:repeating-linear-gradient(45deg,#eaf0f2 0 5px,#fff 5px 10px)}
+.profile-row{display:flex;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);font-size:12px}.profile-row span{color:var(--muted)}
+.mobile-nav{display:none}
+.modalback{position:fixed;inset:0;background:#06172799;display:none;place-items:center;padding:18px;z-index:10}.modalback.show{display:grid}.modal{background:#fff;border-radius:20px;padding:22px;max-width:390px;width:100%;box-shadow:0 25px 80px #0004}.modal h3{margin:0 0 8px}.modal p{font-size:13px;color:var(--muted);line-height:1.55}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+@media(max-width:800px){.app{display:block}.sidebar{display:none}.main{padding:20px 15px 90px}.grid{grid-template-columns:1fr}.mobile-nav{display:flex;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);padding:8px 5px calc(8px + env(safe-area-inset-bottom));justify-content:space-around;z-index:5}.mobile-nav button{border:0;background:transparent;color:#718390;font-size:10px;display:grid;gap:3px;justify-items:center}.mobile-nav button.active{color:#078c7e;font-weight:850}.mobile-nav span{font-size:18px}.topbar{margin-bottom:20px}.actions{gap:7px}.action{padding:12px 4px}}
+@media(max-width:390px){.profile .avatar{display:none}.actions{grid-template-columns:repeat(4,1fr)}.action b{font-size:10px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brandmark">Z</div><div class="brandname">ZIVAZHA <span>PAY</span></div></div>
+  <nav class="nav">
+    <button class="active" data-page="home"><span class="ico">⌂</span>Beranda</button>
+    <button data-page="pay"><span class="ico">▦</span>Pembayaran</button>
+    <button data-page="activity"><span class="ico">◷</span>Riwayat</button>
+    <button data-page="profile"><span class="ico">♙</span>Profil</button>
+  </nav>
+  <div class="sidebar-note"><b>MODE PROTOTIPE</b><br>Antarmuka ini hanya demonstrasi. Tidak menerima, menyimpan, atau mengirim uang sungguhan.</div>
+</aside>
+<main class="main">
+  <header class="topbar"><div class="welcome"><div class="eyebrow">ZIVAZHA PAY • DIGITAL PAYMENT</div><h1 id="greeting">Selamat datang 👋</h1><p>Kelola pengalaman pembayaran digital Anda.</p></div><div class="profile"><button class="bell" aria-label="Notifikasi">♧</button><div class="avatar">Z</div></div></header>
+  <section id="home" class="page active">
+    <div class="grid">
+      <div>
+        <div class="balance"><div class="label">Ringkasan akun demo</div><div class="amount">Rp0 <small>IDR</small></div><div class="balance-foot"><span class="demo-pill">DEMO • BUKAN SALDO UANG</span><span>•••• 2048</span></div></div>
+        <div class="actions">
+          <button class="action" data-action="topup"><span class="symbol">＋</span><b>Isi saldo</b></button>
+          <button class="action" data-action="transfer"><span class="symbol">⇄</span><b>Transfer</b></button>
+          <button class="action" data-action="qris"><span class="symbol">▦</span><b>QRIS</b></button>
+          <button class="action" data-action="bills"><span class="symbol">▤</span><b>Tagihan</b></button>
+        </div>
+        <div class="card"><div class="cardhead"><h2>Transaksi terbaru</h2><button class="btn secondary" data-page="activity">Lihat semua</button></div><div id="recent"><div class="subtle">Belum ada transaksi demo.</div></div></div>
+      </div>
+      <div class="side-stack">
+        <div class="promo"><div class="qr-art">▦</div><h3>Pembayaran lebih praktis</h3><p>Rencanakan pembayaran melalui mitra resmi. Fitur transaksi sungguhan akan diaktifkan setelah integrasi dan persetujuan mitra.</p></div>
+        <div class="card"><div class="cardhead"><h2>Keamanan akun</h2><span class="subtle">Pusat bantuan</span></div><div class="transaction"><div class="txicon">🛡️</div><div class="txmeta"><b>Perlindungan akun</b><small>PIN dan verifikasi akan disiapkan</small></div><span>›</span></div><div class="transaction"><div class="txicon">🔐</div><div class="txmeta"><b>Privasi data</b><small>Jangan bagikan OTP atau PIN</small></div><span>›</span></div></div>
+      </div>
+    </div>
+    <div class="notice"><b>Informasi penting:</b> Ini prototipe UI. Tombol transaksi tidak memproses pembayaran, QRIS, top up, transfer, atau tagihan. Jangan masukkan data bank, PIN, OTP, atau identitas asli.</div>
+  </section>
+  <section id="pay" class="page">
+    <div class="card formcard"><div class="cardhead"><h2>Pusat pembayaran</h2><span class="demo-pill" style="background:#fff5df;color:#88641c;border-color:#f0dfb8">BELUM AKTIF</span></div>
+      <div class="qrbox">▦</div><h3 style="text-align:center">Pembayaran QRIS</h3><p class="subtle" style="text-align:center;line-height:1.6">Area ini akan menampilkan alur pembayaran dari penyedia QRIS berizin setelah kontrak dan integrasi API selesai.</p>
+      <div class="notice">QR di atas hanya ilustrasi, bukan kode QR pembayaran dan tidak dapat dipindai untuk membayar.</div>
+      <div class="field"><label>Tagihan / layanan</label><input value="Fitur belum tersedia pada prototipe" disabled></div>
+      <button class="btn" disabled>Bayar melalui mitra (belum aktif)</button>
+    </div>
+  </section>
+  <section id="activity" class="page">
+    <div class="card"><div class="cardhead"><h2>Riwayat aktivitas</h2><span class="subtle">Akun demo</span></div><div id="allactivity" class="subtle">Belum ada aktivitas.</div></div>
+  </section>
+  <section id="profile" class="page">
+    <div class="card formcard"><div class="cardhead"><h2>Profil pengguna</h2><span class="demo-pill" style="background:#e7f8f4;color:#087b70;border-color:#c7eee5">PROTOTIPE</span></div>
+      <div class="profile-row"><b>Nama tampilan</b><span>Pengguna Demo</span></div><div class="profile-row"><b>ID pengguna</b><span>ZVP-DEMO-0001</span></div><div class="profile-row"><b>Status verifikasi</b><span>Belum dilakukan</span></div><div class="profile-row"><b>Metode pembayaran</b><span>Belum terhubung</span></div>
+      <div class="notice">Jangan gunakan data pribadi asli pada prototipe ini. Registrasi dan verifikasi identitas belum diimplementasikan.</div>
+    </div>
+  </section>
+</main>
+<nav class="mobile-nav"><button class="active" data-page="home"><span>⌂</span>Beranda</button><button data-page="pay"><span>▦</span>Bayar</button><button data-page="activity"><span>◷</span>Riwayat</button><button data-page="profile"><span>♙</span>Profil</button></nav>
+</div>
+<div class="modalback" id="modal"><div class="modal"><h3 id="modalTitle">Fitur belum aktif</h3><p id="modalText">Fitur ini akan tersedia setelah ZIVAZHA PAY bekerja sama dengan penyedia pembayaran resmi.</p><div class="modal-actions"><button class="btn" id="closeModal">Mengerti</button></div></div></div>
+<script>
+(()=> {
+ const modal=document.getElementById('modal');
+ function showModal(title,txt){document.getElementById('modalTitle').textContent=title;document.getElementById('modalText').textContent=txt;modal.classList.add('show')}
+ document.getElementById('closeModal').onclick=()=>modal.classList.remove('show');
+ modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
+ function page(p){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===p));document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('active',x.dataset.page===p));}
+ document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>page(b.dataset.page)));
+ document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>{
+  const names={topup:'Isi saldo',transfer:'Transfer',qris:'Pembayaran QRIS',bills:'Pembayaran tagihan'};
+  showModal(names[b.dataset.action]+' belum aktif','Fitur '+names[b.dataset.action]+' baru dapat diaktifkan setelah kerja sama, pemeriksaan legal, dan integrasi dengan penyedia pembayaran berizin. Prototipe ini tidak memproses uang.');
+ }));
+ if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+})();
+</script>
+</body></html>

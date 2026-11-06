@@ -337,6 +337,16 @@
 </section>
   <section id="activity" class="page">
     <div class="card"><div class="cardhead"><h2>Riwayat aktivitas</h2><span class="subtle">Akun demo</span></div><div id="allactivity" class="subtle">Belum ada aktivitas.</div></div>
+  
+  </div><div class="card" id="careDonationHistory">
+  <div class="cardhead">
+    <h2>💚 Riwayat Simulasi Donasi</h2>
+    <span class="demo-pill">SIMULASI</span>
+  </div>
+  <p id="careHistoryList">Belum ada riwayat simulasi donasi.</p>
+  <p class="notice">Riwayat ini hanya tersimpan di perangkat ini dan bukan bukti transaksi sungguhan.</p>
+</div>
+
   </section>
   <section id="profile" class="page">
     <div class="card formcard"><div class="cardhead"><h2>Profil pengguna</h2><span class="demo-pill" style="background:#e7f8f4;color:#087b70;border-color:#c7eee5">PROTOTIPE</span></div>
@@ -379,7 +389,63 @@ document.getElementById('careDonateBtn').addEventListener('click', function() {
     '. Tidak ada uang yang ditransfer.';
 });
 
-  if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  
+const careHistoryKey = 'zivazhaCareDonationHistory';
+
+function renderCareHistory() {
+  const list = document.getElementById('careHistoryList');
+  let entries = [];
+
+  try {
+    entries = JSON.parse(localStorage.getItem(careHistoryKey) || '[]');
+  } catch (error) {
+    entries = [];
+  }
+
+  if (!Array.isArray(entries) || entries.length === 0) {
+    list.textContent = 'Belum ada riwayat simulasi donasi.';
+    return;
+  }
+
+  list.style.whiteSpace = 'pre-line';
+  list.textContent = entries.map((item, index) =>
+    (index + 1) + '. ' + item.date +
+    ' — ' + item.program +
+    ' — Rp' + Number(item.amount).toLocaleString('id-ID') +
+    ' (SIMULASI)'
+  ).join('\n');
+}
+
+renderCareHistory();
+
+document.getElementById('careDonateBtn').addEventListener('click', function() {
+  const program = document.getElementById('careProgram').value;
+  const amount = Number(document.getElementById('careAmount').value);
+
+  if (!Number.isFinite(amount) || amount < 1000) return;
+
+  let entries = [];
+
+  try {
+    entries = JSON.parse(localStorage.getItem(careHistoryKey) || '[]');
+  } catch (error) {
+    entries = [];
+  }
+
+  if (!Array.isArray(entries)) entries = [];
+
+  entries.unshift({
+    date: new Date().toLocaleString('id-ID'),
+    program: program,
+    amount: amount
+  });
+
+  entries = entries.slice(0, 20);
+  localStorage.setItem(careHistoryKey, JSON.stringify(entries));
+
+  renderCareHistory();
+});
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 })();
 </script>
 </body></html>

@@ -106,7 +106,44 @@
       <h3>🏠 Bantuan Bencana</h3>
       <p>Membantu korban bencana alam.</p>
     </div>
+
 <div class="card">
+  <div class="cardhead">
+    <h2>💚 Simulasi Donasi</h2>
+    <span class="demo-pill">SIMULASI</span>
+  </div>
+
+  <p>Coba pilih program dan nominal donasi.</p>
+
+  <div class="field">
+    <label for="careProgram">Pilih program bantuan</label>
+    <select id="careProgram">
+      <option value="Bantuan Pendidikan">Bantuan Pendidikan</option>
+      <option value="Bantuan Pangan">Bantuan Pangan</option>
+      <option value="Bantuan Kesehatan">Bantuan Kesehatan</option>
+      <option value="Bantuan Bencana">Bantuan Bencana</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="careAmount">Nominal donasi (Rp)</label>
+    <input id="careAmount" type="number" min="1000" placeholder="Contoh: 10000">
+  </div>
+
+  <button class="action" id="careDonateBtn" type="button">
+    Lihat Ringkasan Simulasi
+  </button>
+
+  <div class="notice" id="careDonationResult">
+    Belum ada simulasi donasi.
+  </div>
+
+  <p class="notice">
+    Ini hanya simulasi. Tidak ada uang yang ditransfer atau diterima.
+  </p>
+</div>
+
+    <div class="card">
   <div class="cardhead">
     <h2>📚 Detail Program Bantuan</h2>
     <span class="demo-pill">SIMULASI</span>
@@ -323,7 +360,26 @@
   const names={topup:'Isi saldo',transfer:'Transfer',qris:'Pembayaran QRIS',bills:'Pembayaran tagihan'};
   showModal(names[b.dataset.action]+' belum aktif','Fitur '+names[b.dataset.action]+' baru dapat diaktifkan setelah kerja sama, pemeriksaan legal, dan integrasi dengan penyedia pembayaran berizin. Prototipe ini tidak memproses uang.');
  }));
- if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+
+document.getElementById('careDonateBtn').addEventListener('click', function() {
+  const program = document.getElementById('careProgram').value;
+  const amount = Number(document.getElementById('careAmount').value);
+  const result = document.getElementById('careDonationResult');
+
+  if (!Number.isFinite(amount) || amount < 1000) {
+    result.textContent = 'Masukkan nominal minimal Rp1.000 untuk simulasi.';
+    return;
+  }
+
+  result.textContent =
+    'SIMULASI DONASI BERHASIL DIBUAT. Program: ' +
+    program +
+    '. Nominal: Rp' +
+    amount.toLocaleString('id-ID') +
+    '. Tidak ada uang yang ditransfer.';
+});
+
+  if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 })();
 </script>
 </body></html>

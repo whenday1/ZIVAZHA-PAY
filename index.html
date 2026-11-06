@@ -344,6 +344,10 @@
     <span class="demo-pill">SIMULASI</span>
   </div>
   <p id="careHistoryList">Belum ada riwayat simulasi donasi.</p>
+    <div class="notice" id="careHistorySummary">
+  Jumlah catatan: 0
+  Total donasi simulasi: Rp0
+    </div>
   
 <button class="action" id="clearCareHistoryBtn" type="button">
   Hapus Riwayat Simulasi
@@ -406,7 +410,19 @@ function renderCareHistory() {
   } catch (error) {
     entries = [];
   }
+if (!Array.isArray(entries)) entries = [];
 
+const summary = document.getElementById('careHistorySummary');
+const total = entries.reduce((sum, item) => {
+  return sum + (Number(item.amount) || 0);
+}, 0);
+
+if (summary) {
+  summary.textContent =
+    'Jumlah catatan: ' + entries.length +
+    '\nTotal donasi simulasi: Rp' +
+    total.toLocaleString('id-ID');
+  }
   if (!Array.isArray(entries) || entries.length === 0) {
     list.textContent = 'Belum ada riwayat simulasi donasi.';
     return;

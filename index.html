@@ -421,11 +421,18 @@ function renderCareHistory() {
   ).join('\n');
 }
 
+
 renderCareHistory();
+
 document.getElementById('clearCareHistoryBtn').addEventListener('click', () => {
+  const yakin = confirm('Apakah Anda yakin ingin menghapus seluruh riwayat simulasi donasi?');
+
+  if (!yakin) return;
+
   localStorage.removeItem(careHistoryKey);
   renderCareHistory();
 });
+
 document.getElementById('careDonateBtn').addEventListener('click', function() {
   const program = document.getElementById('careProgram').value;
   const amount = Number(document.getElementById('careAmount').value);

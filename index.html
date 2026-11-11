@@ -301,7 +301,28 @@
 
   <p><b>Status:</b> Menunggu program pertama.</p>
 </div>
-      
+ <div class="card">
+  <div class="cardhead">
+    <h2>💚 Ringkasan Donasi CARE</h2>
+    <span class="demo-pill">SIMULASI</span>
+  </div>
+
+  <h3>Total Donasi Tercatat</h3>
+  <h2 id="careTransparencyTotal">Rp0</h2>
+
+  <p>Jumlah catatan:
+    <b id="careTransparencyCount">0</b>
+  </p>
+
+  <div id="careTransparencyCategories">
+    Menunggu data simulasi.
+  </div>
+
+  <div class="notice">
+    Seluruh angka merupakan data simulasi,
+    bukan dana sungguhan atau bukti penyaluran.
+  </div>
+ </div>     
 <div class="card">
   <div class="cardhead">
     <h2>📸 Laporan dan Bukti Penyaluran</h2>
@@ -423,6 +444,45 @@ if (summary) {
     '\nTotal donasi simulasi: Rp' +
     total.toLocaleString('id-ID');
   }
+  
+  const transparencyTotal =
+  document.getElementById('careTransparencyTotal');
+
+const transparencyCount =
+  document.getElementById('careTransparencyCount');
+
+const transparencyCategories =
+  document.getElementById('careTransparencyCategories');
+
+if (transparencyTotal) {
+  transparencyTotal.textContent =
+    'Rp' + total.toLocaleString('id-ID');
+}
+
+if (transparencyCount) {
+  transparencyCount.textContent = entries.length;
+}
+
+if (transparencyCategories) {
+  const categories = {};
+
+  entries.forEach(item => {
+    const name = item.program || 'Program lainnya';
+
+    categories[name] =
+      (categories[name] || 0) +
+      (Number(item.amount) || 0);
+  });
+
+  transparencyCategories.textContent =
+    Object.entries(categories).map(([name, amount]) =>
+      name + ': Rp' +
+      amount.toLocaleString('id-ID') +
+      ' (SIMULASI)'
+    ).join('\n') || 'Belum ada data simulasi.';
+
+  transparencyCategories.style.whiteSpace = 'pre-line';
+}
   if (!Array.isArray(entries) || entries.length === 0) {
     list.textContent = 'Belum ada riwayat simulasi donasi.';
     return;
